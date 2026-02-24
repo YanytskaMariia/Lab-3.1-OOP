@@ -34,17 +34,17 @@ namespace LinkCollector.Forms
             InitializeComponent();
             _linkToEdit = link;
 
-            // Змінюємо заголовок вікна залежно від режиму
-            this.Text = link == null ? "Створити запис" : "Редагування";
-            this.Size = new Size(480, 450);
+            // Налаштування зовнішнього вигляду вікна
+            this.Text = link == null ? "Створити запис" : "Редагування посилання";
+            this.Size = new Size(480, 480);
             this.StartPosition = FormStartPosition.CenterParent;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog; // Заборона зміни розміру
-            this.MaximizeBox = false; // Прибрати кнопку розгортання
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Font = new Font("Segoe UI", 10);
 
             InitializeCustomUI();
 
-            // Якщо редагуємо - заповнюємо поля даними
+            // Якщо редагуємо - завантажуємо дані в поля
             if (link != null) LoadData();
         }
 
@@ -56,31 +56,31 @@ namespace LinkCollector.Forms
             this.Controls.Clear();
             int y = 20;
 
-            // Локальна функція для швидкого додавання рядків (Label + Control)
+            // Локальна функція для створення рядків "Назва: [Контрол]"
             void AddField(string label, Control ctrl)
             {
                 this.Controls.Add(new Label { Text = label, Location = new Point(20, y + 3), Width = 110, ForeColor = Color.DarkSlateGray });
                 ctrl.Location = new Point(140, y);
                 ctrl.Width = 280;
                 this.Controls.Add(ctrl);
-                y += 50; // Зміщення вниз для наступного елемента
+                y += 50;
             }
 
             txtTitle = new TextBox(); AddField("Назва:", txtTitle);
             txtAuthor = new TextBox(); AddField("Автор:", txtAuthor);
-            txtUrl = new TextBox(); AddField("URL / Видавн.:", txtUrl);
+            txtUrl = new TextBox(); AddField("URL / Джерело:", txtUrl);
 
-            numYear = new NumericUpDown { Minimum = 1800, Maximum = 2200, Value = DateTime.Now.Year };
+            // Максимальний рік обмежений поточним, згідно з правилами LinkRepository
+            numYear = new NumericUpDown { Minimum = 1800, Maximum = DateTime.Now.Year, Value = DateTime.Now.Year };
             AddField("Рік видання:", numYear);
 
-            // Заповнюємо випадаючі списки даними
             cmbCategory = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, DataSource = LinkRepository.GetCategories() };
             AddField("Категорія:", cmbCategory);
 
             cmbType = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, DataSource = Enum.GetValues(typeof(LinkType)) };
             AddField("Тип ресурсу:", cmbType);
 
-            // Кнопки дій
+            // Кнопка Зберегти
             Button btnSave = new Button
             {
                 Text = "Зберегти",
@@ -90,11 +90,11 @@ namespace LinkCollector.Forms
                 BackColor = Color.SeaGreen,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                DialogResult = DialogResult.OK // Вказує, що форма закриється успішно
+                Cursor = Cursors.Hand
             };
             btnSave.Click += BtnSave_Click;
 
+            // Кнопка Скасувати
             Button btnCancel = new Button
             {
                 Text = "Скасувати",
@@ -108,12 +108,10 @@ namespace LinkCollector.Forms
             };
 
             this.Controls.AddRange(new Control[] { btnSave, btnCancel });
-            this.AcceptButton = btnSave; // Клавіша Enter спрацює як "Зберегти"
+            this.AcceptButton = btnSave;
+            this.CancelButton = btnCancel;
         }
 
-        /// <summary>
-        /// Завантаження даних з об'єкта у поля форми.
-        /// </summary>
         private void LoadData()
         {
             txtTitle.Text = _linkToEdit.Title;
@@ -124,39 +122,53 @@ namespace LinkCollector.Forms
             cmbType.SelectedItem = _linkToEdit.Type;
         }
 
-        /// <summary>
-        /// Обробка натискання кнопки "Зберегти".
-        /// </summary>
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            // Валідація: Назва обов'язкова
-            if (string.IsNullOrWhiteSpace(txtTitle.Text))
+            // Базова перевірка на рівні UI
+            if (string.IsNullOrWhiteSpace(txtTitle.Text) || string.IsNullOrWhiteSpace(txtAuthor.Text))
             {
-                MessageBox.Show("Назва не може бути порожньою!", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                DialogResult = DialogResult.None; // Не закривати форму
+                MessageBox.Show("Будь ласка, заповніть обов'язкові поля: Назва та Автор.", "Валідація", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (_linkToEdit == null)
+            try
             {
-                // Логіка додавання нового запису
-                LinkRepository.Add(new ResourceLink
+                if (_linkToEdit == null)
                 {
-                    Title = txtTitle.Text,
-                    Author = txtAuthor.Text,
-                    UrlOrSource = txtUrl.Text,
-                    Year = (int)numYear.Value,
-                    Category = cmbCategory.SelectedItem?.ToString() ?? "",
-                    Type = (LinkType)cmbType.SelectedItem
-                });
+                    // Додавання нового запису через репозиторій
+                    LinkRepository.Add(new ResourceLink
+                    {
+                        Title = txtTitle.Text.Trim(),
+                        Author = txtAuthor.Text.Trim(),
+                        UrlOrSource = txtUrl.Text.Trim(),
+                        Year = (int)numYear.Value,
+                        Category = cmbCategory.SelectedItem?.ToString() ?? "Без категорії",
+                        Type = cmbType.SelectedItem is LinkType type ? type : LinkType.WebResource
+                    });
+                }
+                else
+                {
+                    // Редагування існуючого об'єкта
+                    _linkToEdit.Title = txtTitle.Text.Trim();
+                    _linkToEdit.Author = txtAuthor.Text.Trim();
+                    _linkToEdit.UrlOrSource = txtUrl.Text.Trim();
+                    _linkToEdit.Year = (int)numYear.Value;
+                    _linkToEdit.Category = cmbCategory.SelectedItem?.ToString();
+                    _linkToEdit.Type = (LinkType)cmbType.SelectedItem;
+                }
+
+                // Якщо код вище не викинув Exception, закриваємо форму з успіхом
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
-            else
+            catch (ArgumentException ex)
             {
-                // Логіка редагування існуючого
-                _linkToEdit.Title = txtTitle.Text; _linkToEdit.Author = txtAuthor.Text;
-                _linkToEdit.UrlOrSource = txtUrl.Text; _linkToEdit.Year = (int)numYear.Value;
-                _linkToEdit.Category = cmbCategory.SelectedItem?.ToString();
-                _linkToEdit.Type = (LinkType)cmbType.SelectedItem;
+                // Обробка помилок валідації з LinkRepository (наприклад, рік з майбутнього)
+                MessageBox.Show(ex.Message, "Помилка збереження", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Сталася непередбачена помилка: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

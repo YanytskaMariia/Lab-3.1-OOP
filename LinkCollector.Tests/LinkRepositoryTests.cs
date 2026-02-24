@@ -142,5 +142,87 @@ namespace LinkCollector.Tests
             int countAfter = LinkRepository.GetCategories().Count;
             Assert.Equal(countBefore, countAfter);
         }
+        /// <summary>
+        /// Перевіряє пошук за запитом, який не збігається з жодним записом.
+        /// Очікується отримання порожнього списку.
+        /// </summary>
+        [Fact]
+        public void Search_NonExistentQuery_ReturnsEmptyList()
+        {
+            // Act
+            var result = LinkRepository.Search("NonExistentAuthorOrTitle123");
+
+            // Assert
+            Assert.Empty(result);
+        }
+
+        /// <summary>
+        /// Перевіряє, що пошук коректно обробляє пробіли в запиті (Trim не реалізований в коді, 
+        /// тому це перевірка поточної поведінки або підстава для покращення).
+        /// </summary>
+        [Fact]
+        public void Search_WhitespaceQuery_ReturnsAllLinks()
+        {
+            // Act
+            var result = LinkRepository.Search("   ");
+
+            // Assert
+            Assert.Equal(LinkRepository.GetAll().Count, result.Count);
+        }
+
+        /// <summary>
+        /// Перевіряє логіку валідації року видання. 
+        /// Рік не може бути більшим за поточний (наприклад, 2026 для поточного моменту).
+        /// Примітка: Цей тест допоможе виявити відсутність валідації в методі Add.
+        /// </summary>
+        [Fact]
+        public void Add_FutureYear_ShouldThrowExceptionOrNotAdd()
+        {
+            // Arrange
+            var futureLink = new ResourceLink
+            {
+                Title = "Future Book",
+                Author = "Time Traveler",
+                Year = System.DateTime.Now.Year + 1
+            };
+
+            // Act & Assert
+            // Якщо у вас ще немає логіки валідації, цей тест вкаже на проблему.
+            // Можна очікувати ArgumentException, якщо ви додасте перевірку в метод Add.
+            Assert.Throws<System.ArgumentException>(() => LinkRepository.Add(futureLink));
+        }
+
+        /// <summary>
+        /// Перевіряє видалення категорії, яка не існує в списку.
+        /// Очікується, що метод завершиться без помилок (Safe remove).
+        /// </summary>
+        [Fact]
+        public void RemoveCategory_NonExistent_DoesNotThrow()
+        {
+            // Arrange
+            string fakeCat = "NonExistentCategory";
+
+            // Act & Assert (якщо метод не кидає виключення, тест пройдено)
+            var exception = Record.Exception(() => LinkRepository.RemoveCategory(fakeCat));
+            Assert.Null(exception);
+        }
+
+        /// <summary>
+        /// Перевіряє додавання посилання з порожніми обов'язковими полями.
+        /// </summary>
+        [Theory]
+        [InlineData(null, "Author")]
+        [InlineData("Title", null)]
+        [InlineData("", "")]
+        public void Add_InvalidData_ShouldHandleErrors(string title, string author)
+        {
+            // Arrange
+            var invalidLink = new ResourceLink { Title = title, Author = author, Year = 2020 };
+
+            // Act & Assert
+            // Перевіряємо, чи система захищена від додавання "битої" моделі
+            Assert.Throws<System.ArgumentException>(() => LinkRepository.Add(invalidLink));
+        }
+       
     }
 }

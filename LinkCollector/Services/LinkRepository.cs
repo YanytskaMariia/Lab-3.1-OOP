@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LinkCollector.Models;
 
@@ -21,6 +22,8 @@ namespace LinkCollector.Services
         /// </summary>
         static LinkRepository()
         {
+            // Використовуємо пряме додавання в поле, щоб оминути валідацію конструктора для початкових даних,
+            // або викликаємо Add, якщо дані гарантовано коректні.
             _links.Add(new ResourceLink
             {
                 Title = "Clean Code",
@@ -52,26 +55,81 @@ namespace LinkCollector.Services
         /// </summary>
         public static List<ResourceLink> Search(string query)
         {
+            // Якщо запит порожній або складається лише з пробілів, повертаємо всі посилання
             if (string.IsNullOrWhiteSpace(query)) return _links;
 
+            string lowerQuery = query.Trim().ToLower();
+
             return _links.Where(l =>
-                l.Title.ToLower().Contains(query.ToLower()) ||
-                l.Author.ToLower().Contains(query.ToLower())
+                (l.Title != null && l.Title.ToLower().Contains(lowerQuery)) ||
+                (l.Author != null && l.Author.ToLower().Contains(lowerQuery))
             ).ToList();
         }
 
-        // Методи додавання та видалення посилань
-        public static void Add(ResourceLink link) => _links.Add(link);
-        public static void Remove(ResourceLink link) => _links.Remove(link);
-
-        // Методи роботи з категоріями
-        public static List<string> GetCategories() => _categories;
-
-        public static void AddCategory(string cat)
+        /// <summary>
+        /// Додає нове посилання з валідацією даних.
+        /// </summary>
+        /// <exception cref="ArgumentException">Виникає при некоректних даних або році з майбутнього.</exception>
+        public static void Add(ResourceLink link)
         {
-            if (!_categories.Contains(cat)) _categories.Add(cat);
+            if (link == null)
+                throw new ArgumentNullException(nameof(link));
+
+            // Валідація обов'язкових полів (для тесту Add_InvalidData_ShouldHandleErrors)
+            if (string.IsNullOrWhiteSpace(link.Title) || string.IsNullOrWhiteSpace(link.Author))
+            {
+                throw new ArgumentException("Назва та автор є обов'язковими для заповнення.");
+            }
+
+            // Валідація року (для тесту Add_FutureYear_ShouldThrowExceptionOrNotAdd)
+            if (link.Year > DateTime.Now.Year)
+            {
+                throw new ArgumentException($"Рік видання не може бути більшим за поточний ({DateTime.Now.Year}).");
+            }
+
+            _links.Add(link);
         }
 
-        public static void RemoveCategory(string cat) => _categories.Remove(cat);
+        /// <summary>
+        /// Видаляє посилання зі списку.
+        /// </summary>
+        public static void Remove(ResourceLink link)
+        {
+            if (link != null)
+            {
+                _links.Remove(link);
+            }
+        }
+
+        // Методи роботи з категоріями
+
+        /// <summary>
+        /// Отримати список усіх категорій.
+        /// </summary>
+        public static List<string> GetCategories() => _categories;
+
+        /// <summary>
+        /// Додає нову категорію, якщо такої ще немає.
+        /// </summary>
+        public static void AddCategory(string cat)
+        {
+            if (string.IsNullOrWhiteSpace(cat)) return;
+
+            if (!_categories.Contains(cat))
+            {
+                _categories.Add(cat);
+            }
+        }
+
+        /// <summary>
+        /// Видаляє категорію (безпечне видалення).
+        /// </summary>
+        public static void RemoveCategory(string cat)
+        {
+            if (!string.IsNullOrEmpty(cat))
+            {
+                _categories.Remove(cat);
+            }
+        }
     }
 }

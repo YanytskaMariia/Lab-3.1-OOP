@@ -3,14 +3,14 @@
     partial class CategoryManagerForm
     {
         /// <summary>
-        /// Required designer variable.
+        /// Обов'язкова змінна дизайнера.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Clean up any resources being used.
+        /// Звільнення всіх ресурсів, що використовуються.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true, якщо керовані ресурси мають бути видалені; інакше false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,18 +20,25 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Код, автоматично згенерований дизайнером форм
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Метод для підтримки дизайнера — не змінюйте 
+        /// вміст цього методу за допомогою редактора коду.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // CategoryManagerForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "CategoryManagerForm";
+            this.ClientSize = new System.Drawing.Size(344, 461);
+            this.Name = "CategoryManagerForm";
+            this.Text = "Керування категоріями";
+            this.Load += new System.EventHandler(this.CategoryManagerForm_Load);
+            this.ResumeLayout(false);
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using LinkCollector.Models;
 using LinkCollector.Services;
@@ -8,14 +9,17 @@ using LinkCollector.Services;
 namespace LinkCollector.Forms
 {
     /// <summary>
-    /// Форма експорту даних у файл.
-    /// Дозволяє вибрати стандарт цитування (ДСТУ, Harvard, BibTeX).
+    /// Форма експорту накопичених посилань у файл.
+    /// Дозволяє користувачеві вибрати один із підтримуваних стандартів цитування (ДСТУ, Harvard, BibTeX).
     /// </summary>
     public partial class ExportForm : Form
     {
         private RadioButton rbDstu, rbHarvard, rbBibtex; // Перемикачі вибору формату
-        private CitationService _citationService = new CitationService(); // Сервіс генерації тексту
+        private readonly CitationService _citationService = new CitationService(); // Сервіс генерації тексту
 
+        /// <summary>
+        /// Ініціалізує новий екземпляр форми <see cref="ExportForm"/>.
+        /// </summary>
         public ExportForm()
         {
             InitializeComponent();
@@ -25,31 +29,41 @@ namespace LinkCollector.Forms
             this.StartPosition = FormStartPosition.CenterParent;
             this.Font = new Font("Segoe UI", 10);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
 
             InitializeCustomUI();
         }
 
+        /// <summary>
+        /// Динамічна побудова графічного інтерфейсу для вибору формату експорту.
+        /// </summary>
         private void InitializeCustomUI()
         {
             this.Controls.Clear();
 
-            // Група перемикачів
-            GroupBox box = new GroupBox { Text = "Оберіть формат файлу", Location = new Point(20, 15), Size = new Size(290, 140) };
+            // Група перемикачів для вибору стилю цитування
+            GroupBox box = new GroupBox
+            {
+                Text = "Оберіть формат цитування",
+                Location = new Point(20, 15),
+                Size = new Size(290, 140),
+                ForeColor = Color.DarkSlateGray
+            };
 
             rbDstu = new RadioButton { Text = "ДСТУ 8302:2015 (Україна)", Location = new Point(20, 30), Checked = true, AutoSize = true };
-            rbHarvard = new RadioButton { Text = "Harvard Style", Location = new Point(20, 65), AutoSize = true };
-            rbBibtex = new RadioButton { Text = "BibTeX (для LaTeX)", Location = new Point(20, 100), AutoSize = true };
+            rbHarvard = new RadioButton { Text = "Harvard Style (Міжнародний)", Location = new Point(20, 65), AutoSize = true };
+            rbBibtex = new RadioButton { Text = "BibTeX (для LaTeX документів)", Location = new Point(20, 100), AutoSize = true };
 
             box.Controls.AddRange(new Control[] { rbDstu, rbHarvard, rbBibtex });
             this.Controls.Add(box);
 
-            // Кнопка збереження
+            // Кнопка запуску процесу експорту
             Button btnExport = new Button
             {
                 Text = "Зберегти у файл...",
-                Location = new Point(60, 170),
+                Location = new Point(60, 175),
                 Width = 210,
-                Height = 40,
+                Height = 45,
                 BackColor = Color.SlateGray,
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
@@ -60,33 +74,54 @@ namespace LinkCollector.Forms
         }
 
         /// <summary>
-        /// Логіка збереження файлу через SaveFileDialog.
+        /// Обробка натискання кнопки експорту. 
+        /// Відкриває діалогове вікно збереження файлу та записує згенерований список.
         /// </summary>
         private void BtnExport_Click(object sender, EventArgs e)
         {
-            // 1. Визначаємо стиль
+            // 1. Визначаємо обраний стиль та розширення файлу
             CitationStyle style = CitationStyle.DSTU_8302;
-            string ext = "txt"; // Розширення файлу за замовчуванням
+            string extension = "txt";
 
-            if (rbHarvard.Checked) style = CitationStyle.Harvard;
-            if (rbBibtex.Checked) { style = CitationStyle.BibTeX; ext = "bib"; }
+            if (rbHarvard.Checked)
+            {
+                style = CitationStyle.Harvard;
+            }
+            else if (rbBibtex.Checked)
+            {
+                style = CitationStyle.BibTeX;
+                extension = "bib";
+            }
 
-            // 2. Відкриваємо діалог вибору місця збереження
+            // 2. Налаштування та відкриття діалогу збереження
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                sfd.Filter = $"Text files (*.{ext})|*.{ext}|All files (*.*)|*.*";
-                sfd.FileName = $"references.{ext}";
+                sfd.Filter = $"Файли (*.{extension})|*.{extension}|Усі файли (*.*)|*.*";
+                sfd.FileName = $"references.{extension}";
+                sfd.Title = "Зберегти бібліографічний список";
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    // 3. Генеруємо текст і записуємо у файл
-                    string content = _citationService.GenerateList(LinkRepository.GetAll(), style);
-                    File.WriteAllText(sfd.FileName, content);
+                    try
+                    {
+                        // 3. Генерація контенту через сервіс цитування
+                        // Використовуємо всі посилання з репозиторію
+                        string content = _citationService.GenerateList(LinkRepository.GetAll(), style);
 
-                    MessageBox.Show("Файл успішно збережено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Close(); // Закриваємо форму після успішного експорту
+                        // 4. Запис у файл із підтримкою UTF-8 для коректного відображення кирилиці
+                        File.WriteAllText(sfd.FileName, content, Encoding.UTF8);
+
+                        MessageBox.Show("Дані успішно експортовані!", "Експорт завершено", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Помилка при збереженні файлу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
+
+        private void ExportForm_Load(object sender, EventArgs e) { }
     }
 }

@@ -8,72 +8,70 @@ namespace LinkCollector.Forms
 {
     /// <summary>
     /// Головна форма програми. Відповідає за відображення списку ресурсів та навігацію.
+    /// Функцію пошуку видалено для спрощення інтерфейсу.
     /// </summary>
     public partial class MainForm : Form
     {
         // Елементи інтерфейсу
-        private DataGridView grid;      // Таблиця для даних
-        private TextBox txtSearch;      // Поле пошуку
-        private Panel topPanel;         // Верхня панель для кнопок
+        private DataGridView grid;      // Таблиця для виводу списку ресурсів
+        private Panel topPanel;         // Верхня панель інструментів
 
+        /// <summary>
+        /// Ініціалізує новий екземпляр форми <see cref="MainForm"/>.
+        /// </summary>
         public MainForm()
         {
-            InitializeComponent(); // Ініціалізація стандартних компонентів VS
+            InitializeComponent();
 
-            // Налаштування властивостей головного вікна
-            this.Text = "Link Collector — Головне вікно";
-            this.Size = new Size(950, 600);
+            this.Text = "Link Collector — Керування джерелами";
+            this.Size = new Size(1000, 600);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.White; // Білий фон для сучасного вигляду
-            this.Font = new Font("Segoe UI", 9); // Встановлюємо читабельний шрифт
+            this.BackColor = Color.White;
+            this.Font = new Font("Segoe UI", 9);
 
-            // Виклик методу побудови інтерфейсу
             InitializeCustomUI();
 
-            // Завантаження даних у таблицю при старті
+            // Первинне завантаження всіх даних без фільтрації
             RefreshGrid();
         }
 
         /// <summary>
-        /// Метод створення та розміщення елементів керування (Frontend).
+        /// Побудова графічного інтерфейсу (панель кнопок та таблиця).
         /// </summary>
         private void InitializeCustomUI()
         {
-            this.Controls.Clear(); // Очищення форми перед малюванням
+            this.Controls.Clear();
 
-            // 1. Верхня панель (Header)
+            // 1. Створення верхньої панелі (Header)
             topPanel = new Panel { Dock = DockStyle.Top, Height = 70, BackColor = Color.WhiteSmoke };
 
-            // Елементи пошуку
-            Label lblSearch = new Label { Text = "Пошук:", Location = new Point(15, 25), AutoSize = true, Font = new Font("Segoe UI", 10) };
-            txtSearch = new TextBox { PlaceholderText = "Введіть назву або автора...", Width = 250, Location = new Point(70, 22), Font = new Font("Segoe UI", 10) };
-            // Подія: при введенні тексту оновлюємо таблицю
-            txtSearch.TextChanged += (s, e) => RefreshGrid(txtSearch.Text);
-
-            // Кнопки меню (використовуємо допоміжний метод для стилізації)
-            Button btnAdd = CreateStyledButton("Додати", 340, Color.SeaGreen, (s, e) => {
-                // Відкриваємо форму додавання. Якщо результат OK - оновлюємо таблицю.
+            // Додавання кнопок (зміщено вліво, оскільки пошук видалено)
+            Button btnAdd = CreateStyledButton("Додати", 15, Color.SeaGreen, (s, e) =>
+            {
                 if (new AddEditForm().ShowDialog() == DialogResult.OK) RefreshGrid();
             });
 
-            Button btnDelete = CreateStyledButton("Видалити", 440, Color.IndianRed, BtnDelete_Click);
+            Button btnDelete = CreateStyledButton("Видалити", 115, Color.IndianRed, BtnDelete_Click);
 
-            Button btnCategories = CreateStyledButton("Категорії", 540, Color.SteelBlue, (s, e) => new CategoryManagerForm().ShowDialog());
+            Button btnCategories = CreateStyledButton("Категорії", 215, Color.SteelBlue, (s, e) =>
+            {
+                new CategoryManagerForm().ShowDialog();
+                RefreshGrid();
+            });
 
-            Button btnExport = CreateStyledButton("Експорт", 640, Color.SlateGray, (s, e) => new ExportForm().ShowDialog());
+            Button btnExport = CreateStyledButton("Експорт", 315, Color.SlateGray, (s, e) => new ExportForm().ShowDialog());
 
-            Button btnRefresh = CreateStyledButton("Оновити", 740, Color.Gray, (s, e) => RefreshGrid());
+            Button btnRefresh = CreateStyledButton("Оновити", 415, Color.Gray, (s, e) => RefreshGrid());
 
-            // Додаємо елементи на панель
-            topPanel.Controls.AddRange(new Control[] { lblSearch, txtSearch, btnAdd, btnDelete, btnCategories, btnExport, btnRefresh });
+            topPanel.Controls.AddRange(new Control[] { btnAdd, btnDelete, btnCategories, btnExport, btnRefresh });
             this.Controls.Add(topPanel);
 
-            // 2. Налаштування таблиці (Data Grid)
+            // 2. Налаштування DataGridView
             grid = new DataGridView
             {
-                Dock = DockStyle.Fill, // Заповнити весь простір, що залишився
+                Dock = DockStyle.Fill,
                 AutoGenerateColumns = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect, // Виділяти весь рядок
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 AllowUserToAddRows = false,
                 ReadOnly = true,
                 BackgroundColor = Color.White,
@@ -82,32 +80,25 @@ namespace LinkCollector.Forms
                 GridColor = Color.LightGray
             };
 
-            // Стилізація заголовків колонок
             grid.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
-                BackColor = Color.FromArgb(230, 230, 230),
+                BackColor = Color.FromArgb(240, 240, 240),
                 Font = new Font("Segoe UI", 9, FontStyle.Bold),
                 Padding = new Padding(5)
             };
             grid.EnableHeadersVisualStyles = false;
 
-            // Визначення колонок таблиці та прив'язка до властивостей моделі (DataPropertyName)
-            grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Назва", DataPropertyName = "Title", Width = 250 });
-            grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Автор", DataPropertyName = "Author", Width = 180 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Назва", DataPropertyName = "Title", Width = 200 });
+            grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Автор", DataPropertyName = "Author", Width = 150 });
             grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Рік", DataPropertyName = "Year", Width = 60 });
             grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Категорія", DataPropertyName = "Category", Width = 120 });
             grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Тип", DataPropertyName = "Type", Width = 100 });
             grid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Джерело", DataPropertyName = "UrlOrSource", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
 
-            // Подія: подвійний клік відкриває редагування
             grid.DoubleClick += Grid_DoubleClick;
-
             this.Controls.Add(grid);
         }
 
-        /// <summary>
-        /// Допоміжний метод для створення кнопок з єдиним стилем.
-        /// </summary>
         private Button CreateStyledButton(string text, int x, Color color, EventHandler onClick)
         {
             var btn = new Button
@@ -118,53 +109,55 @@ namespace LinkCollector.Forms
                 Height = 35,
                 BackColor = color,
                 ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat, // Плоский дизайн
+                FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 9, FontStyle.Bold),
-                Cursor = Cursors.Hand // Курсор у вигляді руки
+                Cursor = Cursors.Hand
             };
-            btn.FlatAppearance.BorderSize = 0; // Прибираємо рамку
-            btn.Click += onClick; // Прив'язуємо подію кліку
+            btn.FlatAppearance.BorderSize = 0;
+            btn.Click += onClick;
             return btn;
         }
 
         /// <summary>
-        /// Оновлення даних у таблиці з урахуванням пошукового запиту.
+        /// Оновлює вміст таблиці. Завжди відображає повний список з репозиторію.
         /// </summary>
-        private void RefreshGrid(string query = "")
+        private void RefreshGrid()
         {
-            grid.DataSource = null; // Скидаємо старе джерело
-            grid.DataSource = LinkRepository.Search(query); // Отримуємо нові дані з репозиторію
+            grid.DataSource = null;
+            // Викликаємо Search з порожнім рядком, що згідно з логікою репозиторію повертає всі записи
+            grid.DataSource = LinkRepository.Search("");
         }
 
-        /// <summary>
-        /// Обробка видалення запису.
-        /// </summary>
         private void BtnDelete_Click(object sender, EventArgs e)
         {
             if (grid.SelectedRows.Count > 0)
             {
                 var link = (ResourceLink)grid.SelectedRows[0].DataBoundItem;
-                // Запитуємо підтвердження у користувача
-                if (MessageBox.Show($"Видалити '{link.Title}'?", "Підтвердження", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show($"Видалити запис '{link.Title}'?", "Підтвердження",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     LinkRepository.Remove(link);
                     RefreshGrid();
                 }
             }
-            else MessageBox.Show("Оберіть рядок!");
+            else
+            {
+                MessageBox.Show("Будь ласка, оберіть рядок для видалення.", "Інфо", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
-        /// <summary>
-        /// Обробка редагування запису (подвійний клік).
-        /// </summary>
         private void Grid_DoubleClick(object sender, EventArgs e)
         {
             if (grid.SelectedRows.Count > 0)
             {
                 var link = (ResourceLink)grid.SelectedRows[0].DataBoundItem;
-                // Передаємо вибраний лінк у форму редагування
-                if (new AddEditForm(link).ShowDialog() == DialogResult.OK) RefreshGrid();
+                if (new AddEditForm(link).ShowDialog() == DialogResult.OK)
+                {
+                    RefreshGrid();
+                }
             }
         }
+
+        private void MainForm_Load(object sender, EventArgs e) { }
     }
 }

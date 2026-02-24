@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using LinkCollector.Models;
 
@@ -12,8 +13,10 @@ namespace LinkCollector.Services
         /// <summary>
         /// Генерує рядок одного посилання відповідно до стилю.
         /// </summary>
-        public string GenerateCitation(ResourceLink link, CitationStyle style)
+        public static string GenerateCitation(ResourceLink link, CitationStyle style)
         {
+            if (link == null) return string.Empty;
+
             switch (style)
             {
                 case CitationStyle.DSTU_8302:
@@ -25,12 +28,13 @@ namespace LinkCollector.Services
                     return $"{link.Author} ({link.Year}) '{link.Title}'. Available at: {link.UrlOrSource}.";
 
                 case CitationStyle.BibTeX:
-                    // Формат для LaTeX
-                    return $"@misc{{ link_{link.GetHashCode()},\n" +
-                           $"  author = \"{link.Author}\",\n" +
-                           $"  title = \"{link.Title}\",\n" +
-                           $"  year = \"{link.Year}\",\n" +
-                           $"  howpublished = \"{link.UrlOrSource}\"\n" +
+                    // Формат для LaTeX з використанням системного розділювача рядків
+                    var nl = Environment.NewLine;
+                    return $"@misc{{ link_{link.GetHashCode()},{nl}" +
+                           $"  author = \"{link.Author}\",{nl}" +
+                           $"  title = \"{link.Title}\",{nl}" +
+                           $"  year = \"{link.Year}\",{nl}" +
+                           $"  howpublished = \"{link.UrlOrSource}\"{nl}" +
                            $"}}";
 
                 default:
@@ -43,13 +47,20 @@ namespace LinkCollector.Services
         /// </summary>
         public string GenerateList(List<ResourceLink> links, CitationStyle style)
         {
+            if (links == null || links.Count == 0) return string.Empty;
+
             var sb = new StringBuilder();
             foreach (var link in links)
             {
                 sb.AppendLine(GenerateCitation(link, style));
-                if (style == CitationStyle.BibTeX) sb.AppendLine(); // Відступ для BibTeX
+
+                // Додатковий відступ між записами BibTeX для читабельності
+                if (style == CitationStyle.BibTeX)
+                {
+                    sb.AppendLine();
+                }
             }
-            return sb.ToString();
+            return sb.ToString().TrimEnd(); // Видаляємо зайві хвости в кінці всього списку
         }
     }
 }

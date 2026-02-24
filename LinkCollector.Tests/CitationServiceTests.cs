@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using LinkCollector.Services;
 using LinkCollector.Models;
+using System;
 using System.Collections.Generic;
 
 namespace LinkCollector.Tests
@@ -33,7 +34,7 @@ namespace LinkCollector.Tests
             };
 
             // Act
-            var result = _service.GenerateCitation(link, CitationStyle.DSTU_8302);
+            var result = CitationService.GenerateCitation(link, CitationStyle.DSTU_8302);
 
             // Assert
             Assert.Equal("Author A.. My Book. — Kyiv, 2020.", result);
@@ -55,7 +56,7 @@ namespace LinkCollector.Tests
             };
 
             // Act
-            var result = _service.GenerateCitation(link, CitationStyle.Harvard);
+            var result = CitationService.GenerateCitation(link, CitationStyle.Harvard);
 
             // Assert
             Assert.Equal("Smith, J. (2021) 'Web Article'. Available at: http://site.com.", result);
@@ -77,7 +78,7 @@ namespace LinkCollector.Tests
             };
 
             // Act
-            var result = _service.GenerateCitation(link, CitationStyle.BibTeX);
+            var result = CitationService.GenerateCitation(link, CitationStyle.BibTeX);
 
             // Assert
             Assert.Contains("@misc{", result);
@@ -105,6 +106,88 @@ namespace LinkCollector.Tests
             // Assert
             Assert.Contains("A. T1.", result);
             Assert.Contains("B. T2.", result);
+        }
+
+        /// <summary>
+        /// Перевіряє поведінку за замовчуванням (Default), коли передано невідомий стиль.
+        /// </summary>
+        [Fact]
+        public void GenerateCitation_UnknownStyle_ReturnsToString()
+        {
+            // Arrange
+            var link = new ResourceLink { Author = "U", Title = "T", Year = 2024 };
+            var unknownStyle = (CitationStyle)999;
+
+            // Act
+            var result = CitationService.GenerateCitation(link, unknownStyle);
+
+            // Assert
+            Assert.Equal(link.ToString(), result);
+        }
+
+        /// <summary>
+        /// Перевіряє, чи метод GenerateList коректно обробляє порожній список.
+        /// </summary>
+        [Fact]
+        public void GenerateList_EmptyList_ReturnsEmptyString()
+        {
+            // Act
+            var result = _service.GenerateList(new List<ResourceLink>(), CitationStyle.Harvard);
+
+            // Assert
+            Assert.Equal(string.Empty, result);
+        }
+
+        /// <summary>
+        /// Перевіряє специфічне форматування BibTeX у списку (подвійний розрив рядка).
+        /// </summary>
+        [Fact]
+        public void GenerateList_BibTeX_AddsExtraNewLine()
+        {
+            // Arrange
+            var links = new List<ResourceLink>
+            {
+                new ResourceLink { Author = "Auth1", Title = "Title1", Year = 2021, UrlOrSource = "Src1" },
+                new ResourceLink { Author = "Auth2", Title = "Title2", Year = 2022, UrlOrSource = "Src2" }
+            };
+
+            // Act
+            var result = _service.GenerateList(links, CitationStyle.BibTeX);
+
+            // Assert
+            // Використовуємо системний розділювач для перевірки подвійного переносу
+            string doubleLineBreak = Environment.NewLine + Environment.NewLine;
+            Assert.Contains("}" + doubleLineBreak, result);
+        }
+
+        /// <summary>
+        /// Перевіряє використання хеш-коду як ключа в BibTeX.
+        /// </summary>
+        [Fact]
+        public void GenerateCitation_BibTeX_UsesHashCodeAsKey()
+        {
+            // Arrange
+            var link = new ResourceLink { Author = "X", Title = "Y", Year = 2000 };
+            string expectedKey = $"link_{link.GetHashCode()}";
+
+            // Act
+            var result = CitationService.GenerateCitation(link, CitationStyle.BibTeX);
+
+            // Assert
+            Assert.Contains(expectedKey, result);
+        }
+
+        /// <summary>
+        /// Перевіряє, що метод повертає порожній рядок, якщо передано null замість об'єкта посилання.
+        /// </summary>
+        [Fact]
+        public void GenerateCitation_NullLink_ReturnsEmptyString()
+        {
+            // Act
+            var result = CitationService.GenerateCitation(null, CitationStyle.Harvard);
+
+            // Assert
+            Assert.Equal(string.Empty, result);
         }
     }
 }

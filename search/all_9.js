@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['case_20diagram_0',['3️⃣ Use Case Diagram',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md23',1,'']]],
+  ['category_1',['Category',['../classLinkCollector_1_1Models_1_1ResourceLink.html#a1496055ef33ce81da1ed73c6e5f4c37f',1,'LinkCollector::Models::ResourceLink']]],
+  ['categorymanagerform_2',['categorymanagerform',['../classLinkCollector_1_1Forms_1_1CategoryManagerForm.html',1,'LinkCollector.Forms.CategoryManagerForm'],['../classLinkCollector_1_1Forms_1_1CategoryManagerForm.html#a5c2427184c876be5bfb191512ab6b3a6',1,'LinkCollector.Forms.CategoryManagerForm.CategoryManagerForm()'],['../classLinkCollector_1_1Forms_1_1CategoryManagerForm.html#a9851f3ec0258147102b474effee15b61',1,'LinkCollector.Forms.CategoryManagerForm.CategoryManagerForm(ILinkRepository repo)']]],
+  ['categorymanagerform_2ecs_3',['CategoryManagerForm.cs',['../CategoryManagerForm_8cs.html',1,'']]],
+  ['categorymanagerform_2edesigner_2ecs_4',['CategoryManagerForm.Designer.cs',['../CategoryManagerForm_8Designer_8cs.html',1,'']]],
+  ['categorymanagerform_5fload_5',['CategoryManagerForm_Load',['../classLinkCollector_1_1Forms_1_1CategoryManagerForm.html#af09c523726a5ca82b1e08b9a5c30c445',1,'LinkCollector::Forms::CategoryManagerForm']]],
+  ['changes_6',['6️⃣ Summary Table — Key Changes',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md29',1,'']]],
+  ['citationservice_7',['CitationService',['../classLinkCollector_1_1Services_1_1CitationService.html',1,'LinkCollector::Services']]],
+  ['citationservice_2ecs_8',['CitationService.cs',['../CitationService_8cs.html',1,'']]],
+  ['citationservicetests_9',['citationservicetests',['../classLinkCollector_1_1Tests_1_1CitationServiceTests.html#ae4d7753dcb5c698af14ec2a98d529090',1,'LinkCollector.Tests.CitationServiceTests.CitationServiceTests()'],['../classLinkCollector_1_1Tests_1_1CitationServiceTests.html',1,'LinkCollector.Tests.CitationServiceTests']]],
+  ['citationservicetests_2ecs_10',['CitationServiceTests.cs',['../CitationServiceTests_8cs.html',1,'']]],
+  ['citationstyle_11',['CitationStyle',['../namespaceLinkCollector_1_1Models.html#a17d485bb58403fcd89eb9d48c73f279f',1,'LinkCollector::Models']]],
+  ['class_20component_20diagrams_20static_20view_12',['1️⃣ Class &amp; Component Diagrams (Static View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md19',1,'']]],
+  ['cmbcategory_13',['cmbCategory',['../classLinkCollector_1_1Forms_1_1AddEditForm.html#ab67d1c28c30915b55942c770e10e87dc',1,'LinkCollector::Forms::AddEditForm']]],
+  ['cmbtype_14',['cmbType',['../classLinkCollector_1_1Forms_1_1AddEditForm.html#ac2d15ddee29e9550d5663337e5906db7',1,'LinkCollector::Forms::AddEditForm']]],
+  ['code_20metrics_20report_3a_20refactoring_20impact_20analysis_15',['📊 Code Metrics Report: Refactoring Impact Analysis',['../md_MYdocs_2Metrics.html',1,'']]],
+  ['collector»_16',['Глосарій проєкту «Link Collector»',['../md_MYdocs_2_xD0_x93_xD0_xBB_xD0_xBE_xD1_x81_xD0_xB0_xD1_x80_xD1_x96_xD0_xB9.html',1,'']]],
+  ['component_20diagrams_20static_20view_17',['1️⃣ Class &amp; Component Diagrams (Static View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md19',1,'']]],
+  ['components_18',['components',['../md_MYdocs_2_xD0_x93_xD0_xBB_xD0_xBE_xD1_x81_xD0_xB0_xD1_x80_xD1_x96_xD0_xB9.html#autotoc_md3',1,'Інфраструктура та компоненти (Infrastructure &amp; Components)'],['../classLinkCollector_1_1Forms_1_1AddEditForm.html#a8f90634dcfb2140d8196322e5b293e58',1,'LinkCollector.Forms.AddEditForm.components'],['../classLinkCollector_1_1Forms_1_1CategoryManagerForm.html#aac6bae14c7ab6243acf342f567333162',1,'LinkCollector.Forms.CategoryManagerForm.components'],['../classLinkCollector_1_1Forms_1_1ExportForm.html#a6294e3de280fc65c5046391f82e156fb',1,'LinkCollector.Forms.ExportForm.components'],['../classLinkCollector_1_1Forms_1_1MainForm.html#a284d8a1264388b90b0cbd223427c4051',1,'LinkCollector.Forms.MainForm.components']]],
+  ['concepts_19',['Доменні концепції (Domain Concepts)',['../md_MYdocs_2_xD0_x93_xD0_xBB_xD0_xBE_xD1_x81_xD0_xB0_xD1_x80_xD1_x96_xD0_xB9.html#autotoc_md2',1,'']]],
+  ['constructor_5fgeneratesuniqueid_20',['Constructor_GeneratesUniqueId',['../classLinkCollector_1_1Tests_1_1ResourceLinkTests.html#ac6741d99019f5b89465c267485e7d89e',1,'LinkCollector::Tests::ResourceLinkTests']]],
+  ['createstyledbutton_21',['CreateStyledButton',['../classLinkCollector_1_1Forms_1_1MainForm.html#aa56e5e212861beb647dcfd6565247ebb',1,'LinkCollector::Forms::MainForm']]]
+];

@@ -1,0 +1,5 @@
+<map id="LinkCollector.Services.LinkRepository" name="LinkCollector.Services.LinkRepository">
+<area shape="rect" id="Node000001" title="Репозиторій для керування даними в пам&#39;яті. Тепер — не статичний клас, реалізує ILinkRepository...." alt="" coords="5,79,201,119"/>
+<area shape="rect" id="Node000002" href="$interfaceLinkCollector_1_1Services_1_1ILinkRepository.html" title="Репозиторій для керування посиланнями (порт для збереження/отримання даних)." alt="" coords="42,5,165,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,44,106,79,101,79,101,44"/>
+</map>

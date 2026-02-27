@@ -1,0 +1,7 @@
+<map id="LinkCollector.Forms.AddEditForm" name="LinkCollector.Forms.AddEditForm">
+<area shape="rect" id="Node000001" title="Форма для додавання та редагування записів. Працює в двох режимах залежно від переданого параметра в ..." alt="" coords="5,93,243,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="54,5,109,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,42,120,92,116,94,91,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="133,5,203,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,44,132,94,128,92,153,42"/>
+</map>

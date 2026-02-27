@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,92,60,117"/>
+<area shape="rect" id="Node000001" href="$classLinkCollector_1_1Forms_1_1AddEditForm.html" title="Форма для додавання та редагування записів. Працює в двох режимах залежно від переданого параметра в ..." alt="" coords="108,5,345,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="53,80,78,59,107,41,141,28,143,33,109,46,81,64,57,84"/>
+<area shape="rect" id="Node000002" href="$classLinkCollector_1_1Forms_1_1CategoryManagerForm.html" title="Форма для керування категоріями (контекстами). Дозволяє додавати нові унікальні категорії в репозитор..." alt="" coords="120,55,333,95"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="73,96,119,89,120,94,74,101"/>
+<area shape="rect" id="Node000003" href="$classLinkCollector_1_1Forms_1_1ExportForm.html" title="Форма експорту накопичених посилань у файл. Дозволяє користувачеві вибрати один із підтримуваних стан..." alt="" coords="112,120,341,145"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="74,108,139,117,138,123,73,113"/>
+<area shape="rect" id="Node000004" href="$classLinkCollector_1_1Forms_1_1MainForm.html" title="Головна форма програми. Відповідає за відображення списку ресурсів та навігацію. Функцію пошуку видал..." alt="" coords="117,169,336,195"/>
+<area shape="poly" id="edge4_Node000000_Node000004" title=" " alt="" coords="61,124,84,140,109,154,147,167,145,172,107,159,81,145,58,128"/>
+</map>

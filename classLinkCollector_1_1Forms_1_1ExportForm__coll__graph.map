@@ -1,0 +1,7 @@
+<map id="LinkCollector.Forms.ExportForm" name="LinkCollector.Forms.ExportForm">
+<area shape="rect" id="Node000001" title="Форма експорту накопичених посилань у файл. Дозволяє користувачеві вибрати один із підтримуваних стан..." alt="" coords="5,93,235,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="50,5,105,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,42,116,92,112,94,87,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="129,5,199,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,44,128,94,124,92,149,42"/>
+</map>

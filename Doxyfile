@@ -1,0 +1,25 @@
+# Назва вашого проєкту
+PROJECT_NAME           = "Link Collector"
+
+# Папка, де лежить ваш код (крапка означає поточну папку)
+INPUT                  = .
+
+# Шукати файли у підпапках
+RECURSIVE              = YES
+
+# Куди складати готову документацію
+OUTPUT_DIRECTORY       = docs
+
+# Важливо для C#: оптимізувати вивід для Java/C# стилю
+OPTIMIZE_OUTPUT_JAVA   = YES
+
+# Якщо хочете, щоб документувалися всі класи, навіть без коментарів
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+# Генерувати HTML (це для сайту)
+GENERATE_HTML          = YES
+
+# Відключити LaTeX (щоб зекономити час збірки)
+GENERATE_LATEX         = NO

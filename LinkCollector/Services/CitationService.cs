@@ -8,12 +8,12 @@ namespace LinkCollector.Services
     /// <summary>
     /// Сервіс для генерації текстового представлення посилань у різних форматах.
     /// </summary>
-    public class CitationService
+    public class CitationService : ICitationService
     {
         /// <summary>
         /// Генерує рядок одного посилання відповідно до стилю.
         /// </summary>
-        public static string GenerateCitation(ResourceLink link, CitationStyle style)
+        public string GenerateCitation(ResourceLink link, CitationStyle style)
         {
             if (link == null) return string.Empty;
 

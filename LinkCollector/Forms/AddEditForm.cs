@@ -1,8 +1,9 @@
-﻿using System;
+﻿using LinkCollector.Models;
+using LinkCollector.Services;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using LinkCollector.Models;
-using LinkCollector.Services;
+
 
 namespace LinkCollector.Forms
 {
@@ -20,19 +21,33 @@ namespace LinkCollector.Forms
         // Посилання на об'єкт, який редагуємо (null, якщо створюємо новий)
         private ResourceLink _linkToEdit;
 
-        /// <summary>
-        /// Конструктор без параметрів (потрібен для коректної роботи VS Designer).
-        /// </summary>
-        public AddEditForm() : this(null) { }
+        // Інжектований репозиторій (не використовуємо статичний клас)
+        private readonly ILinkRepository _repo;
 
         /// <summary>
-        /// Основний конструктор.
+        /// Конструктор без параметрів (потрібен для коректної роботи VS Designer).
+        /// Делегує до основного конструктора з дефолтним InMemory репозиторієм.
+        /// </summary>
+        public AddEditForm() : this(new LinkRepository(), null) { }
+
+        /// <summary>
+        /// Конструктор, що відкриває форму в режимі редагування (для зручності виклику).
+        /// Делегує до основного конструктора, передаючи репозиторій за замовчуванням.
         /// </summary>
         /// <param name="link">Об'єкт для редагування або null для нового запису.</param>
-        public AddEditForm(ResourceLink link = null)
+        public AddEditForm(ResourceLink link) : this(new LinkRepository(), link) { }
+
+        /// <summary>
+        /// Основний конструктор з підтримкою Dependency Injection.
+        /// </summary>
+        /// <param name="repo">Репозиторій для збереження/отримання даних.</param>
+        /// <param name="link">Об'єкт для редагування або null для нового запису.</param>
+        public AddEditForm(ILinkRepository repo, ResourceLink link = null)
         {
-            InitializeComponent();
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _linkToEdit = link;
+
+            InitializeComponent();
 
             // Налаштування зовнішнього вигляду вікна
             this.Text = link == null ? "Створити запис" : "Редагування посилання";
@@ -70,11 +85,12 @@ namespace LinkCollector.Forms
             txtAuthor = new TextBox(); AddField("Автор:", txtAuthor);
             txtUrl = new TextBox(); AddField("URL / Джерело:", txtUrl);
 
-            // Максимальний рік обмежений поточним, згідно з правилами LinkRepository
+            // Максимальний рік обмежений поточним, згідно з правилами репозиторію
             numYear = new NumericUpDown { Minimum = 1800, Maximum = DateTime.Now.Year, Value = DateTime.Now.Year };
             AddField("Рік видання:", numYear);
 
-            cmbCategory = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, DataSource = LinkRepository.GetCategories() };
+            // Використовуємо інжектований репозиторій замість статичного виклику
+            cmbCategory = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, DataSource = _repo.GetCategories() };
             AddField("Категорія:", cmbCategory);
 
             cmbType = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, DataSource = Enum.GetValues(typeof(LinkType)) };
@@ -117,7 +133,7 @@ namespace LinkCollector.Forms
             txtTitle.Text = _linkToEdit.Title;
             txtAuthor.Text = _linkToEdit.Author;
             txtUrl.Text = _linkToEdit.UrlOrSource;
-            numYear.Value = _linkToEdit.Year;
+            numYear.Value = Math.Min(Math.Max(_linkToEdit.Year, numYear.Minimum), numYear.Maximum);
             cmbCategory.SelectedItem = _linkToEdit.Category;
             cmbType.SelectedItem = _linkToEdit.Type;
         }
@@ -135,8 +151,8 @@ namespace LinkCollector.Forms
             {
                 if (_linkToEdit == null)
                 {
-                    // Додавання нового запису через репозиторій
-                    LinkRepository.Add(new ResourceLink
+                    // Додавання нового запису через інжектований репозиторій
+                    _repo.Add(new ResourceLink
                     {
                         Title = txtTitle.Text.Trim(),
                         Author = txtAuthor.Text.Trim(),
@@ -163,13 +179,18 @@ namespace LinkCollector.Forms
             }
             catch (ArgumentException ex)
             {
-                // Обробка помилок валідації з LinkRepository (наприклад, рік з майбутнього)
+                // Обробка помилок валідації з репозиторію (наприклад, рік з майбутнього)
                 MessageBox.Show(ex.Message, "Помилка збереження", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Сталася непередбачена помилка: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void AddEditForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

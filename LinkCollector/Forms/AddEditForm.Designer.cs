@@ -17,16 +17,17 @@
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // AddEditForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 441);
-            this.Name = "AddEditForm";
-            this.Text = "Додати/Редагувати";
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(464, 441);
+            Name = "AddEditForm";
+            Text = "Додати/Редагувати";
+            Load += AddEditForm_Load;
+            ResumeLayout(false);
         }
 
         #endregion

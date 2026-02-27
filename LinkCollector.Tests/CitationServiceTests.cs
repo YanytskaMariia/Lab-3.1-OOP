@@ -1,8 +1,8 @@
-﻿using Xunit;
+﻿using LinkCollector.Models;
 using LinkCollector.Services;
-using LinkCollector.Models;
-using System;
-using System.Collections.Generic;
+using LinkCollector.Tests;
+
+
 
 namespace LinkCollector.Tests
 {
@@ -34,7 +34,7 @@ namespace LinkCollector.Tests
             };
 
             // Act
-            var result = CitationService.GenerateCitation(link, CitationStyle.DSTU_8302);
+            var result = _service.GenerateCitation(link, CitationStyle.DSTU_8302);
 
             // Assert
             Assert.Equal("Author A.. My Book. — Kyiv, 2020.", result);
@@ -56,7 +56,7 @@ namespace LinkCollector.Tests
             };
 
             // Act
-            var result = CitationService.GenerateCitation(link, CitationStyle.Harvard);
+            var result = _service.GenerateCitation(link, CitationStyle.Harvard);
 
             // Assert
             Assert.Equal("Smith, J. (2021) 'Web Article'. Available at: http://site.com.", result);
@@ -78,7 +78,7 @@ namespace LinkCollector.Tests
             };
 
             // Act
-            var result = CitationService.GenerateCitation(link, CitationStyle.BibTeX);
+            var result = _service.GenerateCitation(link, CitationStyle.BibTeX);
 
             // Assert
             Assert.Contains("@misc{", result);
@@ -119,7 +119,7 @@ namespace LinkCollector.Tests
             var unknownStyle = (CitationStyle)999;
 
             // Act
-            var result = CitationService.GenerateCitation(link, unknownStyle);
+            var result = _service.GenerateCitation(link, unknownStyle);
 
             // Assert
             Assert.Equal(link.ToString(), result);
@@ -155,7 +155,6 @@ namespace LinkCollector.Tests
             var result = _service.GenerateList(links, CitationStyle.BibTeX);
 
             // Assert
-            // Використовуємо системний розділювач для перевірки подвійного переносу
             string doubleLineBreak = Environment.NewLine + Environment.NewLine;
             Assert.Contains("}" + doubleLineBreak, result);
         }
@@ -171,7 +170,7 @@ namespace LinkCollector.Tests
             string expectedKey = $"link_{link.GetHashCode()}";
 
             // Act
-            var result = CitationService.GenerateCitation(link, CitationStyle.BibTeX);
+            var result = _service.GenerateCitation(link, CitationStyle.BibTeX);
 
             // Assert
             Assert.Contains(expectedKey, result);
@@ -184,7 +183,7 @@ namespace LinkCollector.Tests
         public void GenerateCitation_NullLink_ReturnsEmptyString()
         {
             // Act
-            var result = CitationService.GenerateCitation(null, CitationStyle.Harvard);
+            var result = _service.GenerateCitation(null, CitationStyle.Harvard);
 
             // Assert
             Assert.Equal(string.Empty, result);

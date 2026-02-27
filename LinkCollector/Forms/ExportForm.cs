@@ -15,13 +15,26 @@ namespace LinkCollector.Forms
     public partial class ExportForm : Form
     {
         private RadioButton rbDstu, rbHarvard, rbBibtex; // Перемикачі вибору формату
-        private readonly CitationService _citationService = new CitationService(); // Сервіс генерації тексту
+
+        // Інжектований репозиторій (замість статичного виклику)
+        private readonly ILinkRepository _repo;
+
+        // Сервіс генерації тексту (залишив як конкретний тип для простоти)
+        private readonly CitationService _citationService = new CitationService();
 
         /// <summary>
-        /// Ініціалізує новий екземпляр форми <see cref="ExportForm"/>.
+        /// Конструктор без параметрів (для VS Designer).
+        /// Делегує до конструктора з інжектованим репозиторієм.
         /// </summary>
-        public ExportForm()
+        public ExportForm() : this(new LinkRepository()) { }
+
+        /// <summary>
+        /// Ініціалізує новий екземпляр форми <see cref="ExportForm"/> з інжектованим репозиторієм.
+        /// </summary>
+        public ExportForm(ILinkRepository repo)
         {
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
+
             InitializeComponent();
 
             this.Text = "Експорт посилань";
@@ -105,8 +118,8 @@ namespace LinkCollector.Forms
                     try
                     {
                         // 3. Генерація контенту через сервіс цитування
-                        // Використовуємо всі посилання з репозиторію
-                        string content = _citationService.GenerateList(LinkRepository.GetAll(), style);
+                        // Використовуємо всі посилання з інжектованого репозиторію
+                        string content = _citationService.GenerateList(_repo.GetAll(), style);
 
                         // 4. Запис у файл із підтримкою UTF-8 для коректного відображення кирилиці
                         File.WriteAllText(sfd.FileName, content, Encoding.UTF8);

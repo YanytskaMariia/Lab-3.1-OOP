@@ -16,11 +16,18 @@ namespace LinkCollector.Forms
         private DataGridView grid;      // Таблиця для виводу списку ресурсів
         private Panel topPanel;         // Верхня панель інструментів
 
+        // DI services
+        private readonly ILinkRepository _repo;
+        private readonly ICitationService _citationService;
+
         /// <summary>
         /// Ініціалізує новий екземпляр форми <see cref="MainForm"/>.
         /// </summary>
-        public MainForm()
+        public MainForm(ILinkRepository repo, ICitationService citationService)
         {
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
+            _citationService = citationService ?? throw new ArgumentNullException(nameof(citationService));
+
             InitializeComponent();
 
             this.Text = "Link Collector — Керування джерелами";
@@ -48,18 +55,25 @@ namespace LinkCollector.Forms
             // Додавання кнопок (зміщено вліво, оскільки пошук видалено)
             Button btnAdd = CreateStyledButton("Додати", 15, Color.SeaGreen, (s, e) =>
             {
-                if (new AddEditForm().ShowDialog() == DialogResult.OK) RefreshGrid();
+                // pass injected repository so forms share the same in-memory state
+                using var form = new AddEditForm(_repo);
+                if (form.ShowDialog(this) == DialogResult.OK) RefreshGrid();
             });
 
             Button btnDelete = CreateStyledButton("Видалити", 115, Color.IndianRed, BtnDelete_Click);
 
             Button btnCategories = CreateStyledButton("Категорії", 215, Color.SteelBlue, (s, e) =>
             {
-                new CategoryManagerForm().ShowDialog();
+                using var catForm = new CategoryManagerForm(_repo);
+                catForm.ShowDialog(this);
                 RefreshGrid();
             });
 
-            Button btnExport = CreateStyledButton("Експорт", 315, Color.SlateGray, (s, e) => new ExportForm().ShowDialog());
+            Button btnExport = CreateStyledButton("Експорт", 315, Color.SlateGray, (s, e) =>
+            {
+                using var exportForm = new ExportForm(_repo);
+                exportForm.ShowDialog(this);
+            });
 
             Button btnRefresh = CreateStyledButton("Оновити", 415, Color.Gray, (s, e) => RefreshGrid());
 
@@ -125,7 +139,7 @@ namespace LinkCollector.Forms
         {
             grid.DataSource = null;
             // Викликаємо Search з порожнім рядком, що згідно з логікою репозиторію повертає всі записи
-            grid.DataSource = LinkRepository.Search("");
+            grid.DataSource = _repo.Search("");
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
@@ -136,7 +150,7 @@ namespace LinkCollector.Forms
                 if (MessageBox.Show($"Видалити запис '{link.Title}'?", "Підтвердження",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    LinkRepository.Remove(link);
+                    _repo.Remove(link);
                     RefreshGrid();
                 }
             }
@@ -151,7 +165,8 @@ namespace LinkCollector.Forms
             if (grid.SelectedRows.Count > 0)
             {
                 var link = (ResourceLink)grid.SelectedRows[0].DataBoundItem;
-                if (new AddEditForm(link).ShowDialog() == DialogResult.OK)
+                using var form = new AddEditForm(_repo, link);
+                if (form.ShowDialog(this) == DialogResult.OK)
                 {
                     RefreshGrid();
                 }

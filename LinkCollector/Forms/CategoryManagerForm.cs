@@ -14,11 +14,22 @@ namespace LinkCollector.Forms
         private ListBox lstCategories;  // Список для відображення категорій
         private TextBox txtNewCategory; // Поле для введення назви нової категорії
 
+        // Інжектований репозиторій (замість статичного використання)
+        private readonly ILinkRepository _repo;
+
         /// <summary>
-        /// Ініціалізує новий екземпляр форми <see cref="CategoryManagerForm"/>.
+        /// Конструктор без параметрів (для VS Designer).
+        /// Викликає конструктор з дефолтною інстанцією репозиторію.
         /// </summary>
-        public CategoryManagerForm()
+        public CategoryManagerForm() : this(new LinkRepository()) { }
+
+        /// <summary>
+        /// Ініціалізує новий екземпляр форми <see cref="CategoryManagerForm"/> з інжектованим репозиторієм.
+        /// </summary>
+        public CategoryManagerForm(ILinkRepository repo)
         {
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
+
             InitializeComponent();
 
             this.Text = "Керування категоріями";
@@ -105,7 +116,7 @@ namespace LinkCollector.Forms
             string category = txtNewCategory.Text.Trim();
             if (!string.IsNullOrWhiteSpace(category))
             {
-                LinkRepository.AddCategory(category);
+                _repo.AddCategory(category);
                 RefreshList();
                 txtNewCategory.Clear();
                 txtNewCategory.Focus();
@@ -122,13 +133,13 @@ namespace LinkCollector.Forms
                 string selected = lstCategories.SelectedItem.ToString();
 
                 // Забороняємо видалення, якщо категорія остання (щоб не зламати UI створення посилань)
-                if (LinkRepository.GetCategories().Count <= 1)
+                if (_repo.GetCategories().Count <= 1)
                 {
                     MessageBox.Show("У списку має залишатися хоча б одна категорія!", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                LinkRepository.RemoveCategory(selected);
+                _repo.RemoveCategory(selected);
                 RefreshList();
             }
         }
@@ -139,7 +150,7 @@ namespace LinkCollector.Forms
         private void RefreshList()
         {
             lstCategories.DataSource = null;
-            lstCategories.DataSource = LinkRepository.GetCategories();
+            lstCategories.DataSource = _repo.GetCategories();
         }
 
         private void CategoryManagerForm_Load(object sender, EventArgs e) { }

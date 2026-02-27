@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['lab_203_201_20oop_0',['Lab-3.1-OOP',['../md_MYdocs_2README.html',1,'']]],
+  ['lab_203_201_20oop_0',['Lab-3.1-OOP',['../md_README.html',1,'']]],
   ['level_1',['1. Загальні показники проєкту (Assembly Level)',['../md_MYdocs_2Metrics.html#autotoc_md8',1,'']]],
   ['linkcollector_2',['LinkCollector',['../namespaceLinkCollector.html',1,'']]],
   ['linkcollector_3a_3aforms_3',['Forms',['../namespaceLinkCollector_1_1Forms.html',1,'LinkCollector']]],

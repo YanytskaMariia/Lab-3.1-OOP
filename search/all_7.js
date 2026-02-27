@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['activity_20diagrams_20dynamic_20view_0',['2️⃣ Sequence &amp; Activity Diagrams (Dynamic View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md21',1,'']]],
+  ['activity_20diagrams_20dynamic_20view_0',['2️⃣ Sequence &amp; Activity Diagrams (Dynamic View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md20',1,'']]],
   ['add_1',['add',['../interfaceLinkCollector_1_1Services_1_1ILinkRepository.html#ada685a9479a6507e8fcfece2070e90bf',1,'LinkCollector.Services.ILinkRepository.Add()'],['../classLinkCollector_1_1Services_1_1LinkRepository.html#a9cf440e2ef32d29b0257934e7f70f945',1,'LinkCollector.Services.LinkRepository.Add()']]],
   ['add_5faddsnewlink_2',['Add_AddsNewLink',['../classLinkCollector_1_1Tests_1_1LinkRepositoryTests.html#a94726db2160b0792e40d0e428a45b722',1,'LinkCollector::Tests::LinkRepositoryTests']]],
   ['add_5ffutureyear_5fshouldthrowexceptionornotadd_3',['Add_FutureYear_ShouldThrowExceptionOrNotAdd',['../classLinkCollector_1_1Tests_1_1LinkRepositoryTests.html#a3aa535b365d18e1b482be9979c9ea9fa',1,'LinkCollector::Tests::LinkRepositoryTests']]],
@@ -13,7 +13,7 @@ var searchData=
   ['addeditform_2edesigner_2ecs_10',['AddEditForm.Designer.cs',['../AddEditForm_8Designer_8cs.html',1,'']]],
   ['addeditform_5fload_11',['AddEditForm_Load',['../classLinkCollector_1_1Forms_1_1AddEditForm.html#a7ffeb25c412d3aab1c5565e5da45e7e8',1,'LinkCollector::Forms::AddEditForm']]],
   ['analysis_12',['📊 Code Metrics Report: Refactoring Impact Analysis',['../md_MYdocs_2Metrics.html',1,'']]],
-  ['architectural_20impact_13',['🏗 Architectural Impact',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md17',1,'']]],
+  ['architectural_20impact_13',['🏗 Architectural Impact',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md16',1,'']]],
   ['architecture_14',['Архітектура та принципи (Design &amp; Architecture)',['../md_MYdocs_2_xD0_x93_xD0_xBB_xD0_xBE_xD1_x81_xD0_xB0_xD1_x80_xD1_x96_xD0_xB9.html#autotoc_md6',1,'']]],
   ['article_15',['Article',['../namespaceLinkCollector_1_1Models.html#a1721280737a76836071ec8ab52b90514a5e2f8ee473fdebc99fef4dc9e7ee3146',1,'LinkCollector::Models']]],
   ['assembly_20level_16',['1. Загальні показники проєкту (Assembly Level)',['../md_MYdocs_2Metrics.html#autotoc_md8',1,'']]],

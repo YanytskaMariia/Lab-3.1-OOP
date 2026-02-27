@@ -5,10 +5,10 @@ var searchData=
   ['search_5ffindscorrectlinks_5fcaseinsensitive_2',['Search_FindsCorrectLinks_CaseInsensitive',['../classLinkCollector_1_1Tests_1_1LinkRepositoryTests.html#ab74a09148a14dff4547d4119584956a7',1,'LinkCollector::Tests::LinkRepositoryTests']]],
   ['search_5fnonexistentquery_5freturnsemptylist_3',['Search_NonExistentQuery_ReturnsEmptyList',['../classLinkCollector_1_1Tests_1_1LinkRepositoryTests.html#a55f116a0482da123d8a82b66f4f4c80a',1,'LinkCollector::Tests::LinkRepositoryTests']]],
   ['search_5fwhitespacequery_5freturnsalllinks_4',['Search_WhitespaceQuery_ReturnsAllLinks',['../classLinkCollector_1_1Tests_1_1LinkRepositoryTests.html#a9b444916af6072fc5f701bd52043c5a4',1,'LinkCollector::Tests::LinkRepositoryTests']]],
-  ['sequence_20activity_20diagrams_20dynamic_20view_5',['2️⃣ Sequence &amp; Activity Diagrams (Dynamic View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md21',1,'']]],
+  ['sequence_20activity_20diagrams_20dynamic_20view_5',['2️⃣ Sequence &amp; Activity Diagrams (Dynamic View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md20',1,'']]],
   ['services_6',['2. Аналіз сервісного шару (Namespace: Services)',['../md_MYdocs_2Metrics.html#autotoc_md11',1,'']]],
-  ['state_20diagram_7',['5️⃣ State Diagram',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md27',1,'']]],
+  ['state_20diagram_7',['5️⃣ State Diagram',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md26',1,'']]],
   ['static_20→_20di_20interfaces_8',['UML Delta Report — Refactor: Static → DI &amp; Interfaces',['../md_MYdocs_2UML__Delta__Report.html',1,'']]],
-  ['static_20view_9',['1️⃣ Class &amp; Component Diagrams (Static View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md19',1,'']]],
-  ['summary_20table_20—_20key_20changes_10',['6️⃣ Summary Table — Key Changes',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md29',1,'']]]
+  ['static_20view_9',['1️⃣ Class &amp; Component Diagrams (Static View)',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md18',1,'']]],
+  ['summary_20table_20—_20key_20changes_10',['6️⃣ Summary Table — Key Changes',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md28',1,'']]]
 ];

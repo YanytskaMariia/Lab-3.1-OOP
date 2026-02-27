@@ -4,5 +4,5 @@ var searchData=
   ['uml_20delta_20report_20—_20refactor_3a_20static_20→_20di_20interfaces_1',['UML Delta Report — Refactor: Static → DI &amp; Interfaces',['../md_MYdocs_2UML__Delta__Report.html',1,'']]],
   ['uml_5fdelta_5freport_2emd_2',['UML_Delta_Report.md',['../UML__Delta__Report_8md.html',1,'']]],
   ['urlorsource_3',['UrlOrSource',['../classLinkCollector_1_1Models_1_1ResourceLink.html#a73dc275a9ab866d9bd4f59680f8963fd',1,'LinkCollector::Models::ResourceLink']]],
-  ['use_20case_20diagram_4',['3️⃣ Use Case Diagram',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md23',1,'']]]
+  ['use_20case_20diagram_4',['3️⃣ Use Case Diagram',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md22',1,'']]]
 ];

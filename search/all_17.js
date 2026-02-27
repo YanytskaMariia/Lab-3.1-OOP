@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['table_20—_20key_20changes_0',['6️⃣ Summary Table — Key Changes',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md29',1,'']]],
+  ['table_20—_20key_20changes_0',['6️⃣ Summary Table — Key Changes',['../md_MYdocs_2UML__Delta__Report.html#autotoc_md28',1,'']]],
   ['testability_1',['Тестування (Testing &amp; Testability)',['../md_MYdocs_2_xD0_x93_xD0_xBB_xD0_xBE_xD1_x81_xD0_xB0_xD1_x80_xD1_x96_xD0_xB9.html#autotoc_md5',1,'']]],
   ['testing_20testability_2',['Тестування (Testing &amp; Testability)',['../md_MYdocs_2_xD0_x93_xD0_xBB_xD0_xBE_xD1_x81_xD0_xB0_xD1_x80_xD1_x96_xD0_xB9.html#autotoc_md5',1,'']]],
   ['title_3',['Title',['../classLinkCollector_1_1Models_1_1ResourceLink.html#a5987aea058e50cd232a0e2261d0e4ad6',1,'LinkCollector::Models::ResourceLink']]],

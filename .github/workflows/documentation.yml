@@ -1,0 +1,36 @@
+name: Doxygen Documentation
+
+on:
+  push:
+    branches:
+      - main  # Або 'master', залежно від вашої головної гілки
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Завантажуємо код репозиторію
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Встановлюємо Doxygen та Graphviz (для діаграм)
+      - name: Install Doxygen and Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      # 3. Генеруємо документацію
+      - name: Run Doxygen
+        run: doxygen Doxyfile
+
+      # 4. Публікуємо на GitHub Pages
+      # Цей крок бере файли з папки docs/html і кидає їх у гілку gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/html

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['інфраструктура_20та_20компоненти_20infrastructure_20components_0',['Інфраструктура та компоненти (Infrastructure &amp; Components)',['../md_MYdocs_2_xD0_x93_xD0_xBB_xD0_xBE_xD1_x81_xD0_xB0_xD1_x80_xD1_x96_xD0_xB9.html#autotoc_md3',1,'']]]
+  ['рефакторинг_0',['3. Рефакторинг',['../md_Report.html#autotoc_md33',1,'']]],
+  ['робота_203_201_1',['Лабораторна робота 3.1',['../md_Report.html',1,'']]]
 ];

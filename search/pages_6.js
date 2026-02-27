@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lab_203_201_20oop_0',['Lab-3.1-OOP',['../md_README.html',1,'']]]
+  ['metrics_20report_3a_20refactoring_20impact_20analysis_0',['📊 Code Metrics Report: Refactoring Impact Analysis',['../md_MYdocs_2Metrics.html',1,'']]]
 ];

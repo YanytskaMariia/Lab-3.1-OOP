@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📝_20аналіз_20змін_3a_0',['📝 аналіз змін:',['../md_MYdocs_2Metrics.html#autotoc_md9',1,'📝 Аналіз змін:'],['../md_MYdocs_2Metrics.html#autotoc_md12',1,'📝 Аналіз змін:']]]
+  ['→_20di_20interfaces_0',['UML Delta Report — Refactor: Static → DI &amp; Interfaces',['../md_MYdocs_2UML__Delta__Report.html',1,'']]]
 ];

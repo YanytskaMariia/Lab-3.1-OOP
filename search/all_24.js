@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['сервісного_20шару_20namespace_3a_20services_0',['2. Аналіз сервісного шару (Namespace: Services)',['../md_MYdocs_2Metrics.html#autotoc_md11',1,'']]]
+  ['метрики_20та_20тестування_0',['4. Метрики та Тестування',['../md_Report.html#autotoc_md34',1,'']]],
+  ['моделювання_1',['2. UML Моделювання',['../md_Report.html#autotoc_md32',1,'']]]
 ];
